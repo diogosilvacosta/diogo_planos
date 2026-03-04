@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Os Planos do Boss Diogo</title>
+    <style>
+        :root {
+            --primary: #FF3B30; /* Vermelho vibrante */
+            --whatsapp: #25D366;
+            --glass: rgba(0, 0, 0, 0.8);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* A tua imagem de fundo aqui */
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('fundo.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 450px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            padding: 35px;
+            border-radius: 30px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        h1 { font-size: 28px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px; }
+        .subtitle { color: var(--primary); font-weight: bold; margin-bottom: 25px; display: block; }
+
+        input, select {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .btn-main {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-main:hover { transform: scale(1.02); background: #ff453a; }
+
+        /* Estilo da área de Treino */
+        #workout-area { display: none; }
+        
+        .day-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            border-radius: 15px;
+        }
+
+        .exercise-card {
+            background: rgba(255,255,255,0.08);
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: left;
+            border-left: 4px solid var(--primary);
+        }
+
+        .wa-footer-btn {
+            background: var(--whatsapp);
+            color: white;
+            width: 100%;
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Os Planos do Boss Diogo</h1>
+    <span class="subtitle">Desafio 30 Dias</span>
+
+    <div id="setup-screen">
+        <h2 id="dynamic-greeting">Boas!</h2>
+        <p style="font-size: 14px; opacity: 0.8;">Insere os teus dados para começarmos o massacre.</p>
+        
+        <input type="text" id="userName" placeholder="Como te chamas?">
+        <input type="tel" id="userPhone" placeholder="Teu WhatsApp (Ex: 912345678)">
+        
+        <div style="display: flex; gap: 10px;">
+            <input type="number" id="peso" placeholder="Peso (kg)">
+            <input type="number" id="altura" placeholder="Altura (cm)">
+        </div>
+
+        <select id="objetivo">
+            <option value="perder">🔥 Secar Gordura</option>
+            <option value="ganhar">💪 Ganhar Músculo</option>
+        </select>
+
+        <button class="btn-main" onclick="gerarPlano()">VER MEU TREINO</button>
+    </div>
+
+    <div id="workout-area">
+        <h3 id="personal-welcome"></h3>
+        
+        <div class="day-nav">
+            <button onclick="mudarDia(-1)" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">◀</button>
+            <span id="dia-display" style="font-weight:bold; font-size:20px;">DIA 1</span>
+            <button onclick="mudarDia(1)" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">▶</button>
+        </div>
+        
+        <div id="exercises-list"></div>
+
+        <button class="wa-footer-btn" onclick="enviarWhatsApp()">RECEBER NO MEU WHATSAPP 📱</button>
+    </div>
+</div>
+
+<script>
+    let diaAtual = 1;
+    let planoEscolhido = [];
+    let saudacaoBase = "";
+
+    // Define saudação baseada na hora
+    const hora = new Date().getHours();
+    saudacaoBase = hora < 12 ? "Bom dia" : hora < 18 ? "Boa tarde" : "Boa noite";
+    document.getElementById('dynamic-greeting').innerText = saudacaoBase + "!";
+
+    const database = {
+        perder: ["Burpees (4x12)", "Jumping Jacks (4x50s)", "Mountain Climbers (4x40s)", "Squat Jumps (3x15)", "Abdominais Bicicleta (3x25)", "Prancha Dinâmica (3x1min)"],
+        ganhar: ["Flexões de Braços (4x15)", "Agachamentos (4x20)", "Dips em Banco (3x12)", "Afundos/Lunges (3x12)", "Prancha Abdominal (3x1min)", "Flexões Diamante (3x10)"]
+    };
+
+    function gerarPlano() {
+        const nome = document.getElementById('userName').value;
+        const phone = document.getElementById('userPhone').value;
+        const obj = document.getElementById('objetivo').value;
+
+        if(!nome || !phone) {
+            alert("O Boss Diogo precisa do teu nome e número!");
+            return;
+        }
+
+        planoEscolhido = database[obj];
+        document.getElementById('setup-screen').style.display = 'none';
+        document.getElementById('workout-area').style.display = 'block';
+        document.getElementById('personal-welcome').innerText = `${saudacaoBase}, Boss ${nome}!`;
+        
+        renderizarExercicios();
+    }
+
+    function renderizarExercicios() {
+        document.getElementById('dia-display').innerText = "DIA " + diaAtual;
+        const list = document.getElementById('exercises-list');
+        list.innerHTML = "";
+        
+        planoEscolhido.forEach(ex => {
+            list.innerHTML += `
+                <div class="exercise-card">
+                    <strong>${ex}</strong><br>
+                    <small style="color: #8E8E93;">Foco total na execução!</small>
+                </div>`;
+        });
+    }
+
+    function mudarDia(v) {
+        diaAtual += v;
+        if(diaAtual < 1) diaAtual = 1;
+        if(diaAtual > 30) diaAtual = 30;
+        renderizarExercicios();
+    }
+
+    function enviarWhatsApp() {
+        const nome = document.getElementById('userName').value;
+        const phone = document.getElementById('userPhone').value.replace(/\s/g, '');
+        const objetivo = document.getElementById('objetivo').options[document.getElementById('objetivo').selectedIndex].text;
+        
+        let msg = `*OS PLANOS DO BOSS DIOGO* 🦾%0A%0A`;
+        msg += `Boas, *${nome}*! Aqui está o teu massacre do *DIA ${diaAtual}*:%0A%0A`;
+        msg += `*Objetivo:* ${objetivo}%0A%0A`;
+        
+        planoEscolhido.forEach((ex, i) => {
+            msg += `${i+1}. ${ex}%0A`;
+        });
+
+        msg += `%0A_Não desistas! Faltam ${30 - diaAtual} dias para a glória._`;
+
+        // Link configurado para Portugal (+351). Se for outro país, muda o número abaixo.
+        window.open(`https://api.whatsapp.com/send?phone=351${phone}&text=${msg}`, '_blank');
+    }
+</script>
+
+</body>
+</html>
