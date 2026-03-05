@@ -1,223 +1,1180 @@
 <!DOCTYPE html>
 <html lang="pt-pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Os Planos do Boss Diogo</title>
-    <style>
-        :root {
-            --primary: #FF3B30; /* Vermelho vibrante */
-            --whatsapp: #25D366;
-            --glass: rgba(0, 0, 0, 0.8);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>OS PLANOS DO BOSS DIOGO</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #FF2D20;
+  --red-dark: #C0392B;
+  --gold: #F5A623;
+  --green: #25D366;
+  --bg: #0A0A0A;
+  --card: #111111;
+  --card2: #1A1A1A;
+  --border: rgba(255,255,255,0.07);
+  --text: #F0F0F0;
+  --muted: #666;
+}
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* A tua imagem de fundo aqui */
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('fundo.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: white;
-        }
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
-        .container {
-            width: 90%;
-            max-width: 450px;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            padding: 35px;
-            border-radius: 30px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-        }
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-        h1 { font-size: 28px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px; }
-        .subtitle { color: var(--primary); font-weight: bold; margin-bottom: 25px; display: block; }
+/* ─── NOISE TEXTURE OVERLAY ─── */
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:9999; opacity:0.4;
+}
 
-        input, select {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            border: 1px solid #333;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
+/* ─── SCREENS ─── */
+.screen { display:none; min-height:100vh; }
+.screen.active { display:flex; flex-direction:column; }
 
-        .btn-main {
-            width: 100%;
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 20px;
-            border-radius: 15px;
-            font-weight: bold;
-            font-size: 18px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+/* ════════════════════ LOGIN ════════════════════ */
+#s-login {
+  align-items:center; justify-content:center;
+  background: radial-gradient(ellipse at 60% 0%, rgba(255,45,32,0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at 0% 100%, rgba(245,166,35,0.08) 0%, transparent 50%),
+              var(--bg);
+  padding: 30px 24px;
+}
 
-        .btn-main:hover { transform: scale(1.02); background: #ff453a; }
+.login-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(48px, 12vw, 80px);
+  line-height: 0.9;
+  letter-spacing: 2px;
+  text-align: center;
+  margin-bottom: 8px;
+}
+.login-logo span { color: var(--red); display:block; }
+.login-logo em { color: var(--gold); font-style:normal; font-size: 0.45em; letter-spacing:6px; }
 
-        /* Estilo da área de Treino */
-        #workout-area { display: none; }
-        
-        .day-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 20px 0;
-            background: rgba(255,255,255,0.05);
-            padding: 10px;
-            border-radius: 15px;
-        }
+.tagline {
+  text-align:center;
+  font-size:13px;
+  letter-spacing: 3px;
+  text-transform:uppercase;
+  color: var(--muted);
+  margin-bottom: 50px;
+}
 
-        .exercise-card {
-            background: rgba(255,255,255,0.08);
-            margin-bottom: 10px;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: left;
-            border-left: 4px solid var(--primary);
-        }
+.login-card {
+  width:100%; max-width:380px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 32px 28px;
+}
 
-        .wa-footer-btn {
-            background: var(--whatsapp);
-            color: white;
-            width: 100%;
-            border: none;
-            padding: 18px;
-            border-radius: 15px;
-            font-weight: bold;
-            font-size: 16px;
-            margin-top: 20px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
-        }
-    </style>
+.login-card h3 {
+  font-family:'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom: 24px;
+  color: var(--text);
+}
+
+.input-wrap { position:relative; margin-bottom:14px; }
+.input-wrap input, .input-wrap select {
+  width:100%; padding:16px 18px;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  font-family:'Barlow', sans-serif;
+  font-size:15px;
+  outline:none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+.input-wrap input:focus, .input-wrap select:focus {
+  border-color: var(--red);
+}
+.input-wrap select option { background:#1A1A1A; }
+
+.btn {
+  width:100%; padding:17px;
+  border:none; border-radius:14px;
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:17px; font-weight:900;
+  letter-spacing:2px; text-transform:uppercase;
+  cursor:pointer; transition: all 0.2s;
+  position:relative; overflow:hidden;
+}
+.btn::after {
+  content:'';
+  position:absolute; inset:0;
+  background: rgba(255,255,255,0.1);
+  opacity:0; transition:opacity 0.15s;
+}
+.btn:active::after { opacity:1; }
+
+.btn-red { background: linear-gradient(135deg, var(--red), #E8260A); color:#fff; }
+.btn-red:hover { transform:translateY(-1px); box-shadow:0 8px 30px rgba(255,45,32,0.35); }
+
+.btn-gold { background: linear-gradient(135deg, var(--gold), #E0911A); color:#000; }
+.btn-gold:hover { transform:translateY(-1px); box-shadow:0 8px 30px rgba(245,166,35,0.35); }
+.btn-green { background: linear-gradient(135deg, var(--green), #1DA851); color:#fff; }
+.btn-green:hover { transform:translateY(-1px); box-shadow:0 8px 30px rgba(37,211,102,0.3); }
+
+.btn-ghost {
+  background:transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size:13px;
+}
+
+.hint { text-align:center; font-size:12px; color:var(--muted); margin-top:18px; line-height:1.6; }
+.hint strong { color: var(--gold); }
+
+/* ════════════════════ SETUP ════════════════════ */
+#s-setup {
+  padding: 0;
+  background: var(--bg);
+}
+
+.setup-hero {
+  background: linear-gradient(to bottom, rgba(255,45,32,0.2), transparent);
+  padding: 50px 24px 30px;
+  text-align:center;
+}
+.setup-hero h2 {
+  font-family:'Bebas Neue', sans-serif;
+  font-size: 42px; letter-spacing:2px;
+}
+.setup-hero p { color:var(--muted); font-size:14px; margin-top:6px; }
+
+.setup-body { padding: 0 20px 40px; flex:1; }
+
+.section-label {
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:12px; font-weight:700;
+  letter-spacing:3px; text-transform:uppercase;
+  color: var(--red);
+  margin: 28px 0 12px;
+}
+
+.gender-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.gender-btn {
+  background:var(--card); border:2px solid var(--border);
+  border-radius:16px; padding:22px 10px;
+  text-align:center; cursor:pointer;
+  transition: all 0.2s;
+}
+.gender-btn.sel { border-color: var(--red); background:rgba(255,45,32,0.1); }
+.gender-btn .icon { font-size:36px; display:block; margin-bottom:8px; }
+.gender-btn .lbl { font-family:'Barlow Condensed', sans-serif; font-size:16px; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
+
+.goal-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.goal-btn {
+  background:var(--card); border:2px solid var(--border);
+  border-radius:16px; padding:20px 10px;
+  text-align:center; cursor:pointer;
+  transition: all 0.2s;
+}
+.goal-btn.sel { border-color: var(--gold); background:rgba(245,166,35,0.08); }
+.goal-btn .icon { font-size:28px; display:block; margin-bottom:6px; }
+.goal-btn .lbl { font-family:'Barlow Condensed', sans-serif; font-size:14px; font-weight:700; letter-spacing:1px; text-transform:uppercase; line-height:1.2; }
+
+.level-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.level-btn {
+  background:var(--card); border:2px solid var(--border);
+  border-radius:14px; padding:16px 6px;
+  text-align:center; cursor:pointer;
+  transition: all 0.2s;
+}
+.level-btn.sel { border-color: var(--green); background:rgba(37,211,102,0.08); }
+.level-btn .icon { font-size:22px; display:block; margin-bottom:4px; }
+.level-btn .lbl { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+.level-btn.sel .lbl { color: var(--green); }
+
+/* ════════════════════ WORKOUT ════════════════════ */
+#s-workout { background: var(--bg); }
+
+.workout-header {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 20px;
+  display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:100;
+}
+.wh-logo {
+  font-family:'Bebas Neue', sans-serif;
+  font-size:22px; letter-spacing:1px;
+  color: var(--red);
+}
+.wh-user { font-size:13px; color:var(--muted); text-align:right; }
+.wh-user strong { color:var(--text); display:block; }
+
+.progress-bar-wrap { padding: 0 20px; margin-top:-1px; }
+.progress-bar-bg { height:3px; background:var(--card2); }
+.progress-bar-fill { height:100%; background: linear-gradient(to right, var(--red), var(--gold)); transition: width 0.5s; }
+
+.workout-body { padding:20px; flex:1; }
+
+/* Day selector */
+.day-selector {
+  display:flex; align-items:center; justify-content:space-between;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius:16px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+}
+.day-arrow {
+  background: var(--card2); border:none; color:white;
+  width:36px; height:36px; border-radius:50%;
+  font-size:18px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition: background 0.2s;
+}
+.day-arrow:hover { background:var(--red); }
+.day-info { text-align:center; }
+.day-info .day-num {
+  font-family:'Bebas Neue', sans-serif;
+  font-size:32px; line-height:1; color:var(--red);
+}
+.day-info .day-focus {
+  font-size:11px; font-weight:700; letter-spacing:2px;
+  text-transform:uppercase; color:var(--muted);
+}
+
+/* Stats strip */
+.stats-strip {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:10px; margin-bottom:20px;
+}
+.stat-box {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:12px; padding:14px 10px; text-align:center;
+}
+.stat-box .val {
+  font-family:'Bebas Neue', sans-serif;
+  font-size:24px; color:var(--gold); line-height:1;
+}
+.stat-box .key { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-top:2px; }
+
+/* Video */
+.video-section { margin-bottom:20px; }
+.video-label {
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:12px; font-weight:700; letter-spacing:3px;
+  text-transform:uppercase; color:var(--muted);
+  margin-bottom:8px;
+}
+.video-container {
+  width:100%; aspect-ratio:16/9;
+  border-radius:16px; overflow:hidden;
+  background:#000; position:relative;
+  border: 1px solid var(--border);
+}
+.video-container iframe { width:100%; height:100%; border:none; }
+.video-placeholder {
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  color: var(--muted);
+  cursor:pointer;
+}
+.play-icon {
+  width:60px; height:60px; border-radius:50%;
+  background:rgba(255,45,32,0.8);
+  display:flex; align-items:center; justify-content:center;
+  font-size:24px; margin-bottom:10px;
+}
+.video-name { font-weight:700; font-size:14px; color:var(--text); }
+
+/* Exercise list */
+.ex-header {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:12px;
+}
+.ex-title {
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:18px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+}
+.ex-count { font-size:12px; color:var(--muted); }
+
+.ex-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius:16px; padding:16px;
+  margin-bottom:10px; cursor:pointer;
+  transition: all 0.2s;
+  display:grid; grid-template-columns:48px 1fr auto;
+  gap:12px; align-items:center;
+}
+.ex-card:hover, .ex-card.playing { border-color:var(--red); background:rgba(255,45,32,0.05); }
+.ex-card.done { border-color: var(--green); background:rgba(37,211,102,0.04); opacity:0.7; }
+
+.ex-num {
+  width:48px; height:48px; border-radius:12px;
+  background:var(--card2);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Bebas Neue', sans-serif; font-size:20px;
+  color:var(--muted);
+}
+.ex-card.playing .ex-num { background:var(--red); color:#fff; }
+.ex-card.done .ex-num { background:var(--green); color:#fff; }
+
+.ex-info .ex-name {
+  font-weight:700; font-size:15px; margin-bottom:4px;
+}
+.ex-info .ex-reps {
+  font-size:12px; color:var(--muted); letter-spacing:1px;
+}
+.ex-info .ex-tip {
+  font-size:11px; color:rgba(255,255,255,0.35);
+  margin-top:3px; font-style:italic;
+}
+.ex-play {
+  width:34px; height:34px; border-radius:50%;
+  background:var(--card2);
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; color:var(--muted); flex-shrink:0;
+  transition:background 0.2s;
+}
+.ex-card:hover .ex-play { background:var(--red); color:#fff; }
+
+/* Mark done */
+.mark-wrap { display:flex; gap:10px; margin: 20px 0; }
+.btn-done { flex:1; background:rgba(37,211,102,0.12); border: 1px solid rgba(37,211,102,0.3); color:var(--green); }
+.btn-done:hover { background:var(--green); color:#000; }
+
+/* Rest timer */
+.rest-banner {
+  background: rgba(245,166,35,0.1); border: 1px solid rgba(245,166,35,0.3);
+  border-radius:14px; padding:14px 18px;
+  display:flex; align-items:center; gap:14px; margin-bottom:16px;
+  display:none;
+}
+.rest-icon { font-size:28px; }
+.rest-text .rest-lbl { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); }
+.rest-text .rest-count { font-family:'Bebas Neue', sans-serif; font-size:36px; color:white; line-height:1; }
+.rest-text .rest-sub { font-size:11px; color:var(--muted); }
+
+/* Nutrition tip */
+.nutrition-card {
+  background:linear-gradient(135deg, rgba(245,166,35,0.08), rgba(255,45,32,0.05));
+  border: 1px solid rgba(245,166,35,0.2);
+  border-radius:16px; padding:18px; margin-bottom:16px;
+}
+.nutrition-card .n-label {
+  font-size:10px; font-weight:700; letter-spacing:3px;
+  text-transform:uppercase; color:var(--gold); margin-bottom:8px;
+}
+.nutrition-card .n-text { font-size:14px; line-height:1.6; color:rgba(255,255,255,0.75); }
+
+/* Motivational quote */
+.quote-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:16px; padding:20px;
+  text-align:center; margin-bottom:20px;
+}
+.quote-card .q-text {
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:20px; font-weight:700;
+  font-style:italic; line-height:1.3;
+  color:var(--text); margin-bottom:8px;
+}
+.quote-card .q-sub { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); }
+
+/* Completion */
+.complete-banner {
+  background: linear-gradient(135deg, rgba(37,211,102,0.15), rgba(37,211,102,0.05));
+  border:1px solid rgba(37,211,102,0.3);
+  border-radius:16px; padding:20px; text-align:center;
+  display:none; margin-bottom:16px;
+}
+.complete-banner .c-icon { font-size:48px; }
+.complete-banner .c-title {
+  font-family:'Bebas Neue', sans-serif;
+  font-size:28px; color:var(--green); letter-spacing:2px;
+  margin:8px 0 4px;
+}
+.complete-banner .c-text { font-size:13px; color:var(--muted); }
+
+/* Bottom action */
+.bottom-actions { padding:0 20px 30px; display:flex; flex-direction:column; gap:10px; }
+
+/* ─── TAG BADGE ─── */
+.badge {
+  display:inline-block; padding:3px 10px;
+  border-radius:20px; font-size:10px;
+  font-weight:700; letter-spacing:1px; text-transform:uppercase;
+}
+.badge-red { background:rgba(255,45,32,0.15); color:var(--red); border:1px solid rgba(255,45,32,0.3); }
+.badge-gold { background:rgba(245,166,35,0.15); color:var(--gold); border:1px solid rgba(245,166,35,0.3); }
+.badge-green { background:rgba(37,211,102,0.15); color:var(--green); border:1px solid rgba(37,211,102,0.3); }
+
+/* ─── ERROR ─── */
+.error-shake { animation: shake 0.4s; }
+@keyframes shake {
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-8px)}
+  40%{transform:translateX(8px)}
+  60%{transform:translateX(-6px)}
+  80%{transform:translateX(6px)}
+}
+
+.fade-in { animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+
+/* ─── MODAL ─── */
+.modal-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,0.85); z-index:1000;
+  align-items:flex-end; justify-content:center;
+}
+.modal-overlay.open { display:flex; }
+.modal {
+  background:var(--card); border-radius:24px 24px 0 0;
+  padding:28px 24px 40px; width:100%; max-width:500px;
+  border-top:1px solid var(--border);
+  animation: slideUp 0.3s ease;
+}
+@keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+.modal h3 {
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:22px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+  margin-bottom:8px;
+}
+.modal p { font-size:14px; color:var(--muted); line-height:1.6; margin-bottom:16px; }
+.modal-muscles { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+.modal-steps { font-size:14px; line-height:1.8; color:rgba(255,255,255,0.75); }
+.modal-steps li { margin-bottom:4px; }
+.modal-close {
+  position:absolute; top:16px; right:20px;
+  background:var(--card2); border:none; color:var(--muted);
+  width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:18px;
+}
+.modal { position:relative; }
+
+</style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Os Planos do Boss Diogo</h1>
-    <span class="subtitle">Desafio 30 Dias</span>
+<!-- ══════════════ LOGIN ══════════════ -->
+<div id="s-login" class="screen active">
+  <div class="login-logo">
+    <span>BOSS</span>
+    DIOGO
+    <em>PERFORMANCE COACHING</em>
+  </div>
+  <p class="tagline">Resultados reais. Sem desculpas.</p>
 
-    <div id="setup-screen">
-        <h2 id="dynamic-greeting">Boas!</h2>
-        <p style="font-size: 14px; opacity: 0.8;">Insere os teus dados para começarmos o massacre.</p>
-        
-        <input type="text" id="userName" placeholder="Como te chamas?">
-        <input type="tel" id="userPhone" placeholder="Teu WhatsApp (Ex: 912345678)">
-        
-        <div style="display: flex; gap: 10px;">
-            <input type="number" id="peso" placeholder="Peso (kg)">
-            <input type="number" id="altura" placeholder="Altura (cm)">
-        </div>
+  <div class="login-card fade-in">
+    <h3>🔐 Acesso Exclusivo</h3>
+    <div class="input-wrap">
+      <input type="password" id="passCode" placeholder="Código de cliente" autocomplete="off">
+    </div>
+    <button class="btn btn-red" onclick="checkLogin()">ENTRAR NO PLANO</button>
+    <p class="hint">Não tens código? Contacta o <strong>Boss Diogo</strong> para teres acesso ao teu plano personalizado.</p>
+  </div>
+</div>
 
-        <select id="objetivo">
-            <option value="perder">🔥 Secar Gordura</option>
-            <option value="ganhar">💪 Ganhar Músculo</option>
-        </select>
+<!-- ══════════════ SETUP ══════════════ -->
+<div id="s-setup" class="screen">
+  <div class="setup-hero">
+    <h2>O TEU PERFIL</h2>
+    <p>Personaliza o teu programa de treino</p>
+  </div>
 
-        <button class="btn-main" onclick="gerarPlano()">VER MEU TREINO</button>
+  <div class="setup-body">
+    <div class="section-label">O teu nome</div>
+    <div class="input-wrap">
+      <input type="text" id="userName" placeholder="Como devo chamar-te?">
     </div>
 
-    <div id="workout-area">
-        <h3 id="personal-welcome"></h3>
-        
-        <div class="day-nav">
-            <button onclick="mudarDia(-1)" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">◀</button>
-            <span id="dia-display" style="font-weight:bold; font-size:20px;">DIA 1</span>
-            <button onclick="mudarDia(1)" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">▶</button>
-        </div>
-        
-        <div id="exercises-list"></div>
-
-        <button class="wa-footer-btn" onclick="enviarWhatsApp()">RECEBER NO MEU WHATSAPP 📱</button>
+    <div class="section-label">O teu WhatsApp</div>
+    <div class="input-wrap">
+      <input type="tel" id="userPhone" placeholder="912 345 678">
     </div>
+
+    <div class="section-label">Género</div>
+    <div class="gender-grid">
+      <div class="gender-btn sel" id="gb-m" onclick="selGender('m')">
+        <span class="icon">♂️</span>
+        <span class="lbl">Homem</span>
+      </div>
+      <div class="gender-btn" id="gb-f" onclick="selGender('f')">
+        <span class="icon">♀️</span>
+        <span class="lbl">Mulher</span>
+      </div>
+    </div>
+
+    <div class="section-label">Objetivo</div>
+    <div class="goal-grid">
+      <div class="goal-btn sel" id="gb-perder" onclick="selGoal('perder')">
+        <span class="icon">🔥</span>
+        <span class="lbl">Queimar Gordura &amp; Definir</span>
+      </div>
+      <div class="goal-btn" id="gb-ganhar" onclick="selGoal('ganhar')">
+        <span class="icon">💪</span>
+        <span class="lbl">Ganhar Músculo &amp; Força</span>
+      </div>
+    </div>
+
+    <div class="section-label">Nível de condição física</div>
+    <div class="level-grid">
+      <div class="level-btn sel" id="lb-1" onclick="selLevel(1)">
+        <span class="icon">🌱</span>
+        <span class="lbl">Iniciante</span>
+      </div>
+      <div class="level-btn" id="lb-2" onclick="selLevel(2)">
+        <span class="icon">⚡</span>
+        <span class="lbl">Intermédio</span>
+      </div>
+      <div class="level-btn" id="lb-3" onclick="selLevel(3)">
+        <span class="icon">🔥</span>
+        <span class="lbl">Avançado</span>
+      </div>
+    </div>
+
+    <div style="height:30px"></div>
+    <button class="btn btn-red" onclick="saveSetup()">GERAR O MEU PLANO →</button>
+  </div>
+</div>
+
+<!-- ══════════════ WORKOUT ══════════════ -->
+<div id="s-workout" class="screen">
+  <div class="workout-header">
+    <div class="wh-logo">BOSS DIOGO</div>
+    <div class="wh-user">
+      <strong id="wh-name">—</strong>
+      <span id="wh-badge">—</span>
+    </div>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="prog-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="workout-body">
+    <!-- Day nav -->
+    <div class="day-selector">
+      <button class="day-arrow" onclick="changeDay(-1)">◀</button>
+      <div class="day-info">
+        <div class="day-num" id="day-num">1</div>
+        <div class="day-focus" id="day-focus">Corpo Completo</div>
+      </div>
+      <button class="day-arrow" onclick="changeDay(1)">▶</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-strip">
+      <div class="stat-box">
+        <div class="val" id="stat-ex">—</div>
+        <div class="key">Exercícios</div>
+      </div>
+      <div class="stat-box">
+        <div class="val" id="stat-dur">—</div>
+        <div class="key">Min. Aprox.</div>
+      </div>
+      <div class="stat-box">
+        <div class="val" id="stat-cal">—</div>
+        <div class="key">Kcal Est.</div>
+      </div>
+    </div>
+
+    <!-- Quote -->
+    <div class="quote-card" id="quote-card">
+      <div class="q-text" id="q-text">"A dor de hoje é a força de amanhã."</div>
+      <div class="q-sub">— Boss Diogo</div>
+    </div>
+
+    <!-- Rest timer -->
+    <div class="rest-banner" id="rest-banner">
+      <div class="rest-icon">⏱️</div>
+      <div class="rest-text">
+        <div class="rest-lbl">Descanso</div>
+        <div class="rest-count" id="rest-count">60</div>
+        <div class="rest-sub">segundos até ao próximo exercício</div>
+      </div>
+    </div>
+
+    <!-- Video -->
+    <div class="video-section">
+      <div class="video-label">📽️ Vídeo de demonstração</div>
+      <div id="vid-card-empty" style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 20px;text-align:center;color:var(--muted);font-size:14px;">
+        👆 Clica num exercício abaixo para ver o vídeo
+      </div>
+      <div id="vid-card" style="display:none;background:var(--card);border:1px solid rgba(255,45,32,0.3);border-radius:16px;padding:20px;text-align:center;">
+        <div style="font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">A ver demonstração de</div>
+        <div id="vid-name" style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;margin-bottom:16px;color:var(--text);"></div>
+        <a id="vid-link" href="#" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:#FF0000;color:#fff;text-decoration:none;padding:14px 28px;border-radius:12px;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;letter-spacing:1px;">
+          <svg width="22" height="16" viewBox="0 0 22 16" fill="white"><path d="M21.5 2.5a2.7 2.7 0 0 0-1.9-1.9C18 0 11 0 11 0S4 0 2.4.6A2.7 2.7 0 0 0 .5 2.5C0 4.1 0 8 0 8s0 3.9.5 5.5a2.7 2.7 0 0 0 1.9 1.9C4 16 11 16 11 16s7 0 8.6-.6a2.7 2.7 0 0 0 1.9-1.9C22 11.9 22 8 22 8s0-3.9-.5-5.5z"/><polygon points="8.7,11.5 14.5,8 8.7,4.5" fill="#FF0000"/></svg>
+          ABRIR NO YOUTUBE
+        </a>
+        <div style="font-size:11px;color:var(--muted);margin-top:12px;">Abre numa nova aba — volta aqui depois do vídeo</div>
+      </div>
+    </div>
+
+    <!-- Exercises -->
+    <div class="ex-header">
+      <div class="ex-title">Exercícios do Dia</div>
+      <div class="ex-count" id="ex-count">0/0 concluídos</div>
+    </div>
+    <div id="ex-list"></div>
+
+    <!-- Complete -->
+    <div class="complete-banner" id="complete-banner">
+      <div class="c-icon">🏆</div>
+      <div class="c-title">TREINO CONCLUÍDO!</div>
+      <div class="c-text">Excelente esforço! Descansa bem e alimenta-te bem hoje.</div>
+    </div>
+
+    <!-- Nutrition -->
+    <div class="nutrition-card" id="nutrition-card">
+      <div class="n-label">💡 Dica de Nutrição do Boss</div>
+      <div class="n-text" id="n-text">Carrega os dados...</div>
+    </div>
+  </div>
+
+  <div class="bottom-actions">
+    <button class="btn btn-green" onclick="sendWA('hoje')">📱 ENVIAR TREINO DE HOJE</button>
+    <button class="btn btn-gold" onclick="sendWA('amanha')">⏭️ ENVIAR PLANO DE AMANHÃ</button>
+    <button class="btn btn-ghost" onclick="logout()">⬅ Sair</button>
+  </div>
+</div>
+
+<!-- ══════════════ MODAL DETALHE ══════════════ -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3 id="m-title">Exercício</h3>
+    <p id="m-desc">Descrição</p>
+    <div class="modal-muscles" id="m-muscles"></div>
+    <div class="section-label" style="margin-top:0">Como fazer</div>
+    <ol class="modal-steps" id="m-steps"></ol>
+  </div>
 </div>
 
 <script>
-    let diaAtual = 1;
-    let planoEscolhido = [];
-    let saudacaoBase = "";
+/* ═══════════════════════════════════════════
+   CONFIGURAÇÕES
+═══════════════════════════════════════════ */
+const VALID_CODES = ["BOSS2024","CLIENTE01","DIOGO10","VIP2025","TREINO1","RITALINDA"];
 
-    // Define saudação baseada na hora
-    const hora = new Date().getHours();
-    saudacaoBase = hora < 12 ? "Bom dia" : hora < 18 ? "Boa tarde" : "Boa noite";
-    document.getElementById('dynamic-greeting').innerText = saudacaoBase + "!";
+/* ═══════════════════════════════════════════
+   BASE DE DADOS DE EXERCÍCIOS
+   Estrutura: { n, r_init/inter/adv, id (YouTube), tip, muscles, steps[], dur, kcal }
+═══════════════════════════════════════════ */
 
-    const database = {
-        perder: ["Burpees (4x12)", "Jumping Jacks (4x50s)", "Mountain Climbers (4x40s)", "Squat Jumps (3x15)", "Abdominais Bicicleta (3x25)", "Prancha Dinâmica (3x1min)"],
-        ganhar: ["Flexões de Braços (4x15)", "Agachamentos (4x20)", "Dips em Banco (3x12)", "Afundos/Lunges (3x12)", "Prancha Abdominal (3x1min)", "Flexões Diamante (3x10)"]
-    };
+const QUOTES = [
+  "A dor de hoje é a força de amanhã.",
+  "Ninguém te vai tirar o que conquistaste a suar.",
+  "A consistência bate o talento quando o talento não é consistente.",
+  "Não pares quando estás cansado. Para quando estiveres feito.",
+  "O teu corpo consegue quase tudo. É a tua mente que precisas de convencer.",
+  "Cada rep conta. Cada gota de suor conta.",
+  "Transforma o teu 'não posso' em 'ainda não consigo'.",
+  "Quem treina cedo dorme melhor, come melhor, vive melhor.",
+  "O único mau treino é o que não aconteceu.",
+  "Resultados ou desculpas. Nunca os dois."
+];
 
-    function gerarPlano() {
-        const nome = document.getElementById('userName').value;
-        const phone = document.getElementById('userPhone').value;
-        const obj = document.getElementById('objetivo').value;
+const NUTRITION = {
+  perder: [
+    "Hoje é dia de queima! Bebe pelo menos 2.5L de água. Evita açúcares simples e prioriza proteína em todas as refeições.",
+    "Come de 3 em 3 horas. Proteína + legumes + gordura boa. Mantém o metabolismo ativo e a fome longe.",
+    "Pré-treino: banana + café preto. Pós-treino: shake de proteína ou frango com arroz branco.",
+    "Corta os ultrapracessados. Cada vez que resistires a uma tentação, estás a ganhar.",
+    "Défice calórico não significa passar fome. Aumenta volume com saladas, caldos e fibra.",
+    "Alimentos amigos da queima: frango, ovo, atum, brócolos, pepino, maçã, chá verde.",
+  ],
+  ganhar: [
+    "Para crescer é preciso comer! Aumenta as calorias em ~300kcal acima do teu gasto diário.",
+    "Proteína é rei. Mínimo 2g por kg de peso corporal. Divide em 4-5 refeições ao longo do dia.",
+    "Pré-treino: aveia + fruta + proteína. Pós-treino (janela anabólica de 30min): batido com whey + banana.",
+    "Carboidratos são teus aliados no ganho de massa. Arroz, batata, aveia, massa — sem medo!",
+    "Dorme 7-9h. É durante o sono que o músculo cresce. Sem sono = sem crescimento.",
+    "Creatina monohidratada (3-5g/dia) é suplemento mais estudado e seguro para ganho de força e massa.",
+  ]
+};
 
-        if(!nome || !phone) {
-            alert("O Boss Diogo precisa do teu nome e número!");
-            return;
-        }
+/* YouTube IDs reais de vídeos de exercícios em português/inglês */
+const EXERCISES = {
+  /* ── CALISTENIA GERAL ── */
+  flexoes:        { n:"Flexões",            id:"IODxDxX7oi4", tip:"Cotovelos a 45° do corpo", muscles:["Peito","Tríceps","Ombros"], steps:["Mãos à largura dos ombros","Corpo em prancha rígida","Descer até o peito quase tocar no chão","Subir explosivamente","Expirar ao subir"] },
+  flexoes_largas: { n:"Flexões Largas",     id:"ibEjnkVnWGE", tip:"Maior ativação do peito", muscles:["Peito externo","Ombros"], steps:["Mãos bem abertas (2x largura ombros)","Cotovelos para fora","Descer lentamente","Subir e repetir"] },
+  flexoes_tri:    { n:"Flexões Tricípite",  id:"hZmk4BJfaS4", tip:"Mãos em triângulo sob o peito", muscles:["Tríceps","Peito interno"], steps:["Mãos formam triângulo","Cotovelos colam ao corpo","Descer com controlo","Subir forte"] },
+  diamond:        { n:"Diamond Push-ups",   id:"J0DnG1_S92I", tip:"Máxima ativação do tríceps", muscles:["Tríceps","Peito"], steps:["Mãos em diamante","Cotovelos para trás","Amplitude completa"] },
+  dips_cadeira:   { n:"Dips na Cadeira",    id:"0326dy_-CzM", tip:"Não deixes os cotovelos abrirem", muscles:["Tríceps","Ombros"], steps:["Mãos na borda da cadeira","Pés no chão","Descer até 90°","Subir pela força dos tríceps"] },
+  agacho:         { n:"Agachamento",        id:"aclHkVaku9U", tip:"Joelhos não ultrapassam os pés", muscles:["Quadríceps","Glúteos","Gémeos"], steps:["Pés à largura dos ombros","Costas direitas","Descer como se fosses sentar","Joelhos alinhados com os pés","Subir expirar"] },
+  agacho_sumô:    { n:"Agachamento Sumo",   id:"5sAiZY-qpJY", tip:"Pés a 45° e bem abertos", muscles:["Glúteos","Abdutores","Quadríceps"], steps:["Pés bem abertos (>45°)","Joelhos seguem os pés","Descer fundo","Subir e apertar os glúteos"] },
+  afundo:         { n:"Afundos",            id:"QOVaHwm-Q6U", tip:"Joelho traseiro quase toca no chão", muscles:["Quadríceps","Glúteos","Isquiotibiais"], steps:["Passo largo à frente","Joelhos a 90°","Costas retas","Empurrar pelo calcanhar da frente","Alternar pernas"] },
+  afundo_rev:     { n:"Afundos Inversos",   id:"FzHc8RZGJjY", tip:"Mais suave para os joelhos", muscles:["Glúteos","Quadríceps"], steps:["Passo largo para trás","Joelho traseiro a 5cm do chão","Empurrar para cima pela perna da frente"] },
+  ponte_glu:      { n:"Ponte de Glúteos",   id:"Zpp_8RpRIeY", tip:"Apertar no topo durante 2 segundos", muscles:["Glúteos","Isquiotibiais","Lombar"], steps:["Deitar de costas","Pés perto do corpo","Elevar ancas ao máximo","Apertar glúteos no topo","Baixar controlado"] },
+  gitu:           { n:"Hip Thrust (Cadeira)",id:"xDmFkJxPzeM", tip:"Usa uma superfície estável", muscles:["Glúteos","Isquiotibiais"], steps:["Ombros apoiados na cadeira","Pés no chão","Elevar ancas em linha reta","Apertar glúteos no topo"] },
+  burpee:         { n:"Burpees",            id:"auBLPXO8FHI", tip:"Explosivo mas controlado", muscles:["Corpo completo","Cardio"], steps:["De pé","Descer para agacho","Rolar para prancha","Flexão opcional","Saltar e palmas acima da cabeça"] },
+  mountain:       { n:"Mountain Climbers",  id:"nmwgirgXLYM", tip:"Ancas baixas, core contraído", muscles:["Core","Cardio","Ombros"], steps:["Posição de prancha","Trazer joelho ao peito alternado","Velocidade crescente","Core sempre ativo"] },
+  sqjump:         { n:"Squat Jumps",        id:"AzVnNAsmD3o", tip:"Aterragem suave com joelhos semiflexos", muscles:["Quadríceps","Glúteos","Cardio"], steps:["Agachamento normal","Saltar o mais alto possível","Aterrar suave","Imediato agachamento"] },
+  hikeup:         { n:"High Knees",         id:"8opcQdC-V-U", tip:"Joelhos acima da cintura", muscles:["Cardio","Core","Pernas"], steps:["De pé","Correr no lugar","Joelhos sobem até à cintura","Braços em movimento"] },
+  polichinelo:    { n:"Polichinelos",       id:"2W4ZNSwoW_4", tip:"Padrão rítmico constante", muscles:["Cardio","Ombros","Pernas"], steps:["Saltar abrindo pernas e braços","Saltar fechando pernas e baixando braços","Ritmo constante"] },
+  corrida_lugar:  { n:"Corrida no Lugar",   id:"HMITfJHMCv8", tip:"Aumenta velocidade a cada set", muscles:["Cardio","Gémeos","Isquiotibiais"], steps:["Correr no lugar","Aumentar progressivamente a velocidade","Braços em movimento natural"] },
+  prancha:        { n:"Prancha Isométrica", id:"pSHjTRCQxIw", tip:"Core contraído, respira normalmente", muscles:["Core","Estabilizadores"], steps:["Antebraços no chão","Corpo em linha reta","Não deixar ancas cair","Respiração constante"] },
+  prancha_lat:    { n:"Prancha Lateral",    id:"_rdfjFSLKqY", tip:"Quadril não pode cair", muscles:["Oblíquos","Core lateral"], steps:["Apoiar num antebraço","Corpo em linha reta","Quadril elevado","Alternar lados"] },
+  crunch:         { n:"Crunches",           id:"Xyd_fa5zoEU", tip:"Não puxar pelo pescoço", muscles:["Abdominais","Core"], steps:["Deitar com joelhos dobrados","Mãos atrás da cabeça","Elevar apenas os ombros","Expirar ao subir","Baixar controlado"] },
+  bicycle:        { n:"Bicycle Crunches",   id:"9FGilxCbdz8", tip:"Rotação completa do tronco", muscles:["Abdominais","Oblíquos"], steps:["Deitar, joelhos dobrados","Elevar ombros","Trazer cotovelo ao joelho oposto","Alternar de forma fluída"] },
+  legrise:        { n:"Leg Raises",         id:"JB2oyawG9KI", tip:"Lombar colada ao chão", muscles:["Abdominais inferiores","Core"], steps:["Deitar de costas","Pernas esticadas juntas","Elevar a 90°","Descer devagar sem tocar no chão"] },
+  superman:       { n:"Superman",           id:"cc2MNLEzPR4", tip:"Elevar e manter 2 segundos", muscles:["Lombar","Glúteos","Costas"], steps:["Deitar de barriga para baixo","Braços esticados à frente","Elevar braços, peito e pernas","Manter 2s","Baixar"] },
+  pullup_neg:     { n:"Pull-up Negativo",   id:"lGFRhoxJQUM", tip:"Descer em 5 segundos", muscles:["Dorsal","Bíceps"], steps:["Subir com ajuda ou salto","Posição de chin acima da barra","Descer muito lentamente (5s)","Repetir"] },
+  invrow:         { n:"Row na Borda (Mesa)", id:"QcVblgW84EM", tip:"Corpo rígido como prancha", muscles:["Dorsal","Rombóides","Bíceps"], steps:["Deitar sob mesa resistente","Pegar na borda","Puxar o peito até à borda","Baixar controlado"] },
+  pike:           { n:"Pike Push-up",       id:"i5ItMYlnvaQ", tip:"Simula o press de ombros", muscles:["Ombros","Tríceps"], steps:["Flexão com ancas elevadas (forma de V)","Baixar a cabeça ao chão","Empurrar para cima"] },
+  handstand_wall: { n:"Prancha Vertical (Parede)",id:"uOSqUfEPgck", tip:"Começar com 10-20 segundos", muscles:["Ombros","Core","Triceps"], steps:["Encostar à parede","Subir pelas mãos","Corpo em linha reta","Manter a posição"] },
+  step_up:        { n:"Step Ups",           id:"dQqApCGd5Ss", tip:"Usa um degrau ou cadeira", muscles:["Glúteos","Quadríceps"], steps:["Subir um pé para o step","Empurrar pelo calcanhar","Subir o outro pé","Descer controlado"] },
+  calf_raise:     { n:"Elevações em Bicos", id:"gwLzBJYoWlQ", tip:"Amplitude total para melhores resultados", muscles:["Gémeos","Sóleo"], steps:["De pé com pés paralelos","Elevar nos bicos dos pés ao máximo","Baixar controlado","Usar degrau para maior amplitude"] },
+  glute_kick:     { n:"Donkey Kicks",       id:"SJ1Xuz9LCIw", tip:"Não rotacionar a anca", muscles:["Glúteos","Lombar"], steps:["Posição de gatos (quatro apoios)","Elevar um joelho para trás e cima","Glúteo contraído no topo","Baixar sem tocar no chão","Alternar"] },
+  fire_hydrant:   { n:"Fire Hydrant",       id:"la7fCf0V5_4", tip:"Manter anca nivelada", muscles:["Glúteos","Abdutores"], steps:["Posição de gatos","Elevar joelho para o lado a 90°","Manter anca nivelada","Baixar e repetir"] },
+  tricep_dip:     { n:"Tríceps na Cadeira", id:"6kALZikXxLc", tip:"Cotovelos apontam para trás", muscles:["Tríceps","Peito inferior"], steps:["Mãos na cadeira atrás","Pés no chão","Descer até 90°","Subir e repetir"] },
+  inchworm:       { n:"Inchworm",           id:"_HnCCi-4eMA", tip:"Ótimo aquecimento e mobilidade", muscles:["Corpo completo","Mobilidade"], steps:["De pé, dobrar e tocar no chão","Andar com as mãos até prancha","Fazer flexão opcional","Andar de volta com os pés"] },
+  wall_sit:       { n:"Wall Sit",           id:"y-wV4Venusw", tip:"Isometria intensa para pernas", muscles:["Quadríceps","Glúteos"], steps:["Encostar à parede","Descer até 90° nos joelhos","Costas coladas à parede","Manter a posição"] },
+  plank_tap:      { n:"Plank Shoulder Tap", id:"LEZck_QnEP0", tip:"Mínimo de rotação do corpo", muscles:["Core","Ombros","Estabilidade"], steps:["Prancha em braços esticados","Tocar ombro alternado com mão oposta","Core contraído para não rodar"] },
+};
 
-        planoEscolhido = database[obj];
-        document.getElementById('setup-screen').style.display = 'none';
-        document.getElementById('workout-area').style.display = 'block';
-        document.getElementById('personal-welcome').innerText = `${saudacaoBase}, Boss ${nome}!`;
-        
-        renderizarExercicios();
-    }
+/* ═══════════════════════════════════════════
+   PROGRAMAS DE 30 DIAS
+   Cada dia tem: focus, dur, kcal, exercícios por nível
+═══════════════════════════════════════════ */
 
-    function renderizarExercicios() {
-        document.getElementById('dia-display').innerText = "DIA " + diaAtual;
-        const list = document.getElementById('exercises-list');
-        list.innerHTML = "";
-        
-        planoEscolhido.forEach(ex => {
-            list.innerHTML += `
-                <div class="exercise-card">
-                    <strong>${ex}</strong><br>
-                    <small style="color: #8E8E93;">Foco total na execução!</small>
-                </div>`;
-        });
-    }
+// Helper para construir sets
+const ex = (key, sets, reps_or_time) => ({ key, sets, reps: reps_or_time });
 
-    function mudarDia(v) {
-        diaAtual += v;
-        if(diaAtual < 1) diaAtual = 1;
-        if(diaAtual > 30) diaAtual = 30;
-        renderizarExercicios();
-    }
+const PROGRAM = {
+  /* ─────── HOMEM + PERDER PESO ─────── */
+  mf: {
+    days: [
+      { focus:"Corpo Completo - Ativação",  dur:30, kcal:280,
+        1:[ex("agacho","3","12 reps"),ex("flexoes","3","10 reps"),ex("mountain","3","30s"),ex("prancha","3","30s"),ex("polichinelo","2","45s")],
+        2:[ex("agacho","4","15 reps"),ex("flexoes","4","12 reps"),ex("mountain","4","40s"),ex("prancha","4","40s"),ex("polichinelo","3","45s"),ex("crunch","3","15 reps")],
+        3:[ex("agacho","4","20 reps"),ex("flexoes","4","15 reps"),ex("burpee","4","10 reps"),ex("mountain","4","45s"),ex("prancha","4","50s"),ex("bicycle","3","20 reps")]},
+      { focus:"HIIT - Queima Máxima",       dur:35, kcal:350,
+        1:[ex("hikeup","3","30s"),ex("sqjump","3","8 reps"),ex("burpee","2","5 reps"),ex("prancha","3","30s"),ex("corrida_lugar","2","30s")],
+        2:[ex("hikeup","4","40s"),ex("sqjump","4","12 reps"),ex("burpee","3","8 reps"),ex("prancha","3","40s"),ex("mountain","3","30s"),ex("corrida_lugar","3","40s")],
+        3:[ex("hikeup","5","50s"),ex("sqjump","5","15 reps"),ex("burpee","4","12 reps"),ex("prancha","4","50s"),ex("mountain","4","45s"),ex("corrida_lugar","4","50s"),ex("bicycle","3","20 reps")]},
+      { focus:"Pernas & Glúteos",           dur:30, kcal:260,
+        1:[ex("agacho","3","12 reps"),ex("afundo","3","8 por perna"),ex("ponte_glu","3","15 reps"),ex("calf_raise","3","20 reps"),ex("prancha","2","30s")],
+        2:[ex("agacho_sumô","4","15 reps"),ex("afundo","4","10 por perna"),ex("ponte_glu","4","20 reps"),ex("sqjump","3","10 reps"),ex("calf_raise","4","25 reps"),ex("prancha_lat","3","30s cada")],
+        3:[ex("agacho_sumô","5","20 reps"),ex("afundo_rev","4","12 por perna"),ex("gitu","4","20 reps"),ex("sqjump","4","15 reps"),ex("step_up","4","12 por perna"),ex("glute_kick","3","15 por perna"),ex("prancha_lat","3","40s cada")]},
+      { focus:"Peito & Braços",             dur:30, kcal:240,
+        1:[ex("flexoes","3","10 reps"),ex("dips_cadeira","3","10 reps"),ex("flexoes_largas","3","8 reps"),ex("prancha","3","30s"),ex("crunch","3","12 reps")],
+        2:[ex("flexoes","4","15 reps"),ex("dips_cadeira","4","12 reps"),ex("flexoes_tri","4","10 reps"),ex("pike","3","8 reps"),ex("prancha","3","45s"),ex("bicycle","3","15 reps")],
+        3:[ex("flexoes","5","20 reps"),ex("diamond","4","15 reps"),ex("dips_cadeira","4","15 reps"),ex("pike","4","12 reps"),ex("handstand_wall","3","20s"),ex("prancha","4","60s"),ex("legrise","3","15 reps")]},
+      { focus:"HIIT Total Body",            dur:40, kcal:400,
+        1:[ex("burpee","3","6 reps"),ex("sqjump","3","10 reps"),ex("mountain","3","30s"),ex("hikeup","3","30s"),ex("prancha","3","30s")],
+        2:[ex("burpee","4","10 reps"),ex("sqjump","4","12 reps"),ex("mountain","4","40s"),ex("hikeup","4","40s"),ex("prancha","4","45s"),ex("corrida_lugar","3","40s")],
+        3:[ex("burpee","5","15 reps"),ex("sqjump","5","15 reps"),ex("mountain","5","50s"),ex("hikeup","5","50s"),ex("prancha","4","60s"),ex("corrida_lugar","4","50s"),ex("bicycle","4","25 reps")]},
+      { focus:"Core & Estabilidade",        dur:25, kcal:200,
+        1:[ex("prancha","4","30s"),ex("crunch","3","15 reps"),ex("legrise","3","10 reps"),ex("superman","3","10 reps"),ex("bicycle","3","12 reps")],
+        2:[ex("prancha","4","45s"),ex("bicycle","4","20 reps"),ex("legrise","4","15 reps"),ex("prancha_lat","3","30s cada"),ex("superman","4","15 reps"),ex("crunch","4","20 reps")],
+        3:[ex("prancha","5","60s"),ex("plank_tap","4","20 reps"),ex("bicycle","5","25 reps"),ex("legrise","5","20 reps"),ex("prancha_lat","4","45s cada"),ex("superman","4","20 reps"),ex("crunch","5","25 reps")]},
+      { focus:"🔋 RECUPERAÇÃO ATIVA",       dur:20, kcal:120,
+        1:[ex("inchworm","3","8 reps"),ex("prancha","2","20s"),ex("agacho","2","10 reps"),ex("wall_sit","2","30s")],
+        2:[ex("inchworm","4","10 reps"),ex("prancha","3","30s"),ex("agacho","3","12 reps"),ex("wall_sit","3","40s"),ex("superman","3","12 reps")],
+        3:[ex("inchworm","4","12 reps"),ex("prancha","3","40s"),ex("agacho","3","15 reps"),ex("wall_sit","3","50s"),ex("superman","4","15 reps"),ex("glute_kick","3","12 por perna")]},
+    ]
+  },
 
-    function enviarWhatsApp() {
-        const nome = document.getElementById('userName').value;
-        const phone = document.getElementById('userPhone').value.replace(/\s/g, '');
-        const objetivo = document.getElementById('objetivo').options[document.getElementById('objetivo').selectedIndex].text;
-        
-        let msg = `*OS PLANOS DO BOSS DIOGO* 🦾%0A%0A`;
-        msg += `Boas, *${nome}*! Aqui está o teu massacre do *DIA ${diaAtual}*:%0A%0A`;
-        msg += `*Objetivo:* ${objetivo}%0A%0A`;
-        
-        planoEscolhido.forEach((ex, i) => {
-            msg += `${i+1}. ${ex}%0A`;
-        });
+  /* ─────── HOMEM + GANHAR MÚSCULO ─────── */
+  mg: {
+    days: [
+      { focus:"Empurrar - Peito & Ombros",  dur:40, kcal:300,
+        1:[ex("flexoes","4","12 reps"),ex("flexoes_largas","3","10 reps"),ex("pike","3","8 reps"),ex("dips_cadeira","3","10 reps"),ex("prancha","3","30s")],
+        2:[ex("flexoes","5","15 reps"),ex("flexoes_largas","4","12 reps"),ex("diamond","4","10 reps"),ex("pike","4","10 reps"),ex("dips_cadeira","4","12 reps"),ex("prancha","3","45s")],
+        3:[ex("flexoes","5","20 reps"),ex("diamond","5","15 reps"),ex("flexoes_tri","5","15 reps"),ex("pike","5","15 reps"),ex("handstand_wall","4","30s"),ex("dips_cadeira","5","15 reps"),ex("prancha","4","60s")]},
+      { focus:"Puxar - Costas & Bíceps",    dur:40, kcal:290,
+        1:[ex("invrow","4","10 reps"),ex("pullup_neg","3","5 reps"),ex("superman","4","12 reps"),ex("prancha","3","30s"),ex("inchworm","2","8 reps")],
+        2:[ex("invrow","5","12 reps"),ex("pullup_neg","4","6 reps"),ex("superman","4","15 reps"),ex("prancha","4","40s"),ex("plank_tap","3","15 reps")],
+        3:[ex("invrow","5","15 reps"),ex("pullup_neg","5","8 reps"),ex("superman","5","20 reps"),ex("prancha","4","60s"),ex("plank_tap","4","20 reps"),ex("inchworm","3","10 reps")]},
+      { focus:"Pernas - Força",             dur:45, kcal:320,
+        1:[ex("agacho","4","15 reps"),ex("afundo","3","10 por perna"),ex("step_up","3","10 por perna"),ex("ponte_glu","3","15 reps"),ex("calf_raise","4","20 reps")],
+        2:[ex("agacho","5","20 reps"),ex("agacho_sumô","4","15 reps"),ex("afundo","4","12 por perna"),ex("step_up","4","12 por perna"),ex("gitu","4","20 reps"),ex("calf_raise","5","25 reps")],
+        3:[ex("agacho","5","25 reps"),ex("sqjump","4","15 reps"),ex("afundo_rev","5","15 por perna"),ex("step_up","5","15 por perna"),ex("gitu","5","25 reps"),ex("wall_sit","4","60s"),ex("calf_raise","5","30 reps")]},
+      { focus:"Peito - Volume",             dur:45, kcal:310,
+        1:[ex("flexoes","5","15 reps"),ex("flexoes_largas","4","12 reps"),ex("dips_cadeira","4","12 reps"),ex("prancha","4","40s"),ex("legrise","3","12 reps")],
+        2:[ex("flexoes","5","20 reps"),ex("flexoes_largas","5","15 reps"),ex("diamond","4","15 reps"),ex("dips_cadeira","5","15 reps"),ex("prancha","4","50s"),ex("bicycle","3","20 reps")],
+        3:[ex("flexoes","6","25 reps"),ex("flexoes_largas","5","20 reps"),ex("diamond","5","20 reps"),ex("pike","5","15 reps"),ex("dips_cadeira","5","20 reps"),ex("prancha","5","60s"),ex("plank_tap","4","20 reps")]},
+      { focus:"Corpo Completo - Força",     dur:50, kcal:360,
+        1:[ex("agacho","4","15 reps"),ex("flexoes","4","12 reps"),ex("afundo","3","10 por perna"),ex("invrow","3","10 reps"),ex("prancha","3","40s")],
+        2:[ex("agacho","5","20 reps"),ex("flexoes","5","15 reps"),ex("afundo_rev","4","12 por perna"),ex("invrow","4","12 reps"),ex("pike","3","10 reps"),ex("prancha","4","50s")],
+        3:[ex("agacho","5","25 reps"),ex("flexoes","5","20 reps"),ex("afundo_rev","5","15 por perna"),ex("invrow","5","15 reps"),ex("pike","4","15 reps"),ex("handstand_wall","4","30s"),ex("prancha","5","60s")]},
+      { focus:"Core - Força e Definição",   dur:30, kcal:220,
+        1:[ex("prancha","4","40s"),ex("bicycle","3","20 reps"),ex("legrise","3","12 reps"),ex("superman","3","12 reps"),ex("crunch","3","20 reps")],
+        2:[ex("prancha","5","50s"),ex("plank_tap","4","20 reps"),ex("bicycle","4","25 reps"),ex("legrise","4","15 reps"),ex("superman","4","15 reps"),ex("prancha_lat","4","40s cada")],
+        3:[ex("prancha","5","60s"),ex("plank_tap","5","25 reps"),ex("bicycle","5","30 reps"),ex("legrise","5","20 reps"),ex("superman","5","20 reps"),ex("prancha_lat","5","50s cada"),ex("crunch","4","25 reps")]},
+      { focus:"🔋 RECUPERAÇÃO ATIVA",       dur:20, kcal:120,
+        1:[ex("inchworm","3","8 reps"),ex("prancha","2","20s"),ex("superman","2","10 reps"),ex("agacho","2","10 reps")],
+        2:[ex("inchworm","4","10 reps"),ex("prancha","3","30s"),ex("superman","3","12 reps"),ex("agacho","3","12 reps"),ex("wall_sit","2","40s")],
+        3:[ex("inchworm","4","12 reps"),ex("prancha","3","40s"),ex("superman","4","15 reps"),ex("agacho","3","15 reps"),ex("wall_sit","3","50s"),ex("glute_kick","3","12 por perna")]},
+    ]
+  },
 
-        msg += `%0A_Não desistas! Faltam ${30 - diaAtual} dias para a glória._`;
+  /* ─────── MULHER + PERDER PESO ─────── */
+  ff: {
+    days: [
+      { focus:"Corpo Completo - Ativação",  dur:30, kcal:250,
+        1:[ex("agacho","3","15 reps"),ex("ponte_glu","3","15 reps"),ex("flexoes","3","8 reps"),ex("polichinelo","3","45s"),ex("prancha","2","25s")],
+        2:[ex("agacho","4","20 reps"),ex("ponte_glu","4","20 reps"),ex("flexoes","4","10 reps"),ex("hikeup","3","35s"),ex("prancha","3","35s"),ex("crunch","3","15 reps")],
+        3:[ex("sqjump","4","15 reps"),ex("gitu","4","20 reps"),ex("flexoes","4","15 reps"),ex("burpee","3","8 reps"),ex("mountain","3","40s"),ex("prancha","3","45s"),ex("bicycle","3","20 reps")]},
+      { focus:"Glúteos & Pernas",           dur:35, kcal:270,
+        1:[ex("agacho_sumô","3","15 reps"),ex("ponte_glu","3","20 reps"),ex("afundo","3","10 por perna"),ex("glute_kick","3","12 por perna"),ex("fire_hydrant","3","12 por perna")],
+        2:[ex("agacho_sumô","4","20 reps"),ex("gitu","4","20 reps"),ex("afundo","4","12 por perna"),ex("glute_kick","4","15 por perna"),ex("fire_hydrant","4","15 por perna"),ex("step_up","3","12 por perna")],
+        3:[ex("sqjump","4","15 reps"),ex("gitu","5","25 reps"),ex("afundo_rev","5","15 por perna"),ex("glute_kick","4","20 por perna"),ex("fire_hydrant","4","20 por perna"),ex("step_up","4","15 por perna"),ex("calf_raise","4","25 reps")]},
+      { focus:"HIIT - Queima de Gordura",   dur:35, kcal:320,
+        1:[ex("hikeup","3","30s"),ex("burpee","2","5 reps"),ex("mountain","3","25s"),ex("polichinelo","3","45s"),ex("prancha","2","25s")],
+        2:[ex("hikeup","4","40s"),ex("burpee","3","8 reps"),ex("mountain","4","35s"),ex("sqjump","3","10 reps"),ex("polichinelo","3","50s"),ex("prancha","3","35s")],
+        3:[ex("hikeup","5","50s"),ex("burpee","4","12 reps"),ex("mountain","5","45s"),ex("sqjump","4","15 reps"),ex("corrida_lugar","4","50s"),ex("prancha","4","50s"),ex("bicycle","3","20 reps")]},
+      { focus:"Core & Abdominais",          dur:25, kcal:190,
+        1:[ex("crunch","3","15 reps"),ex("prancha","3","30s"),ex("legrise","3","10 reps"),ex("bicycle","3","12 reps"),ex("superman","2","10 reps")],
+        2:[ex("crunch","4","20 reps"),ex("prancha","4","40s"),ex("legrise","4","15 reps"),ex("bicycle","4","20 reps"),ex("prancha_lat","3","30s cada"),ex("superman","3","15 reps")],
+        3:[ex("crunch","5","25 reps"),ex("prancha","5","55s"),ex("legrise","5","20 reps"),ex("bicycle","5","25 reps"),ex("prancha_lat","4","40s cada"),ex("plank_tap","4","20 reps"),ex("superman","4","20 reps")]},
+      { focus:"Glúteos & Coxa Posterior",   dur:35, kcal:260,
+        1:[ex("ponte_glu","4","20 reps"),ex("afundo","3","10 por perna"),ex("glute_kick","3","15 por perna"),ex("fire_hydrant","3","12 por perna"),ex("agacho_sumô","3","15 reps")],
+        2:[ex("gitu","5","20 reps"),ex("afundo_rev","4","12 por perna"),ex("glute_kick","4","20 por perna"),ex("fire_hydrant","4","15 por perna"),ex("sqjump","3","12 reps"),ex("step_up","3","12 por perna")],
+        3:[ex("gitu","5","25 reps"),ex("afundo_rev","5","15 por perna"),ex("glute_kick","5","25 por perna"),ex("fire_hydrant","5","20 por perna"),ex("sqjump","4","15 reps"),ex("step_up","4","15 por perna"),ex("wall_sit","3","50s")]},
+      { focus:"Peito, Braços & Ombros",     dur:30, kcal:220,
+        1:[ex("flexoes","3","8 reps"),ex("dips_cadeira","3","10 reps"),ex("pike","3","6 reps"),ex("prancha","3","30s"),ex("crunch","2","15 reps")],
+        2:[ex("flexoes","4","12 reps"),ex("flexoes_largas","3","10 reps"),ex("dips_cadeira","4","12 reps"),ex("pike","3","8 reps"),ex("prancha","3","45s"),ex("bicycle","3","15 reps")],
+        3:[ex("flexoes","5","15 reps"),ex("flexoes_largas","4","12 reps"),ex("diamond","4","10 reps"),ex("pike","4","12 reps"),ex("dips_cadeira","4","15 reps"),ex("prancha","4","55s"),ex("legrise","3","15 reps")]},
+      { focus:"🔋 RECUPERAÇÃO ATIVA",       dur:20, kcal:100,
+        1:[ex("inchworm","3","6 reps"),ex("prancha","2","20s"),ex("agacho","2","10 reps"),ex("glute_kick","2","10 por perna")],
+        2:[ex("inchworm","3","8 reps"),ex("prancha","2","30s"),ex("agacho","2","12 reps"),ex("glute_kick","3","12 por perna"),ex("superman","2","10 reps")],
+        3:[ex("inchworm","4","10 reps"),ex("prancha","3","35s"),ex("agacho","3","15 reps"),ex("glute_kick","3","15 por perna"),ex("superman","3","15 reps"),ex("fire_hydrant","3","12 por perna")]},
+    ]
+  },
 
-        // Link configurado para Portugal (+351). Se for outro país, muda o número abaixo.
-        window.open(`https://api.whatsapp.com/send?phone=351${phone}&text=${msg}`, '_blank');
-    }
+  /* ─────── MULHER + GANHAR MÚSCULO ─────── */
+  fg: {
+    days: [
+      { focus:"Glúteos & Força Base",       dur:40, kcal:280,
+        1:[ex("agacho","4","15 reps"),ex("ponte_glu","4","20 reps"),ex("afundo","3","10 por perna"),ex("glute_kick","3","15 por perna"),ex("prancha","3","30s")],
+        2:[ex("agacho_sumô","5","20 reps"),ex("gitu","5","20 reps"),ex("afundo","4","12 por perna"),ex("glute_kick","4","20 por perna"),ex("step_up","4","12 por perna"),ex("prancha","3","45s")],
+        3:[ex("sqjump","4","15 reps"),ex("gitu","5","25 reps"),ex("afundo_rev","5","15 por perna"),ex("glute_kick","5","25 por perna"),ex("fire_hydrant","4","20 por perna"),ex("step_up","4","15 por perna"),ex("prancha","4","60s")]},
+      { focus:"Peito & Ombros - Tonificação",dur:35, kcal:250,
+        1:[ex("flexoes","4","8 reps"),ex("flexoes_largas","3","8 reps"),ex("pike","3","6 reps"),ex("dips_cadeira","3","10 reps"),ex("prancha","3","30s")],
+        2:[ex("flexoes","5","12 reps"),ex("flexoes_largas","4","10 reps"),ex("pike","4","8 reps"),ex("diamond","3","8 reps"),ex("dips_cadeira","4","12 reps"),ex("prancha","4","40s")],
+        3:[ex("flexoes","5","15 reps"),ex("flexoes_largas","5","12 reps"),ex("diamond","4","12 reps"),ex("pike","5","12 reps"),ex("handstand_wall","3","20s"),ex("dips_cadeira","5","15 reps"),ex("prancha","4","55s")]},
+      { focus:"Coxa & Glúteos Profundos",   dur:40, kcal:290,
+        1:[ex("agacho_sumô","4","15 reps"),ex("fire_hydrant","3","15 por perna"),ex("afundo_rev","3","10 por perna"),ex("ponte_glu","4","20 reps"),ex("wall_sit","3","40s")],
+        2:[ex("agacho_sumô","5","20 reps"),ex("fire_hydrant","4","20 por perna"),ex("afundo_rev","4","12 por perna"),ex("gitu","5","20 reps"),ex("step_up","4","12 por perna"),ex("wall_sit","3","50s")],
+        3:[ex("sqjump","4","15 reps"),ex("agacho_sumô","5","25 reps"),ex("fire_hydrant","5","25 por perna"),ex("afundo_rev","5","15 por perna"),ex("gitu","5","25 reps"),ex("step_up","5","15 por perna"),ex("wall_sit","4","60s"),ex("calf_raise","4","25 reps")]},
+      { focus:"Core & Cintura",             dur:30, kcal:220,
+        1:[ex("prancha","4","35s"),ex("bicycle","3","20 reps"),ex("legrise","3","12 reps"),ex("crunch","3","20 reps"),ex("superman","3","12 reps")],
+        2:[ex("prancha","5","45s"),ex("plank_tap","4","20 reps"),ex("bicycle","4","25 reps"),ex("legrise","4","15 reps"),ex("prancha_lat","4","35s cada"),ex("superman","3","15 reps")],
+        3:[ex("prancha","5","60s"),ex("plank_tap","5","25 reps"),ex("bicycle","5","30 reps"),ex("legrise","5","20 reps"),ex("prancha_lat","5","50s cada"),ex("crunch","5","30 reps"),ex("superman","4","20 reps")]},
+      { focus:"Corpo Completo - Força",     dur:45, kcal:320,
+        1:[ex("agacho","4","15 reps"),ex("flexoes","4","10 reps"),ex("ponte_glu","4","20 reps"),ex("invrow","3","8 reps"),ex("prancha","3","35s")],
+        2:[ex("agacho_sumô","5","20 reps"),ex("flexoes","5","12 reps"),ex("gitu","4","20 reps"),ex("invrow","4","10 reps"),ex("pike","3","8 reps"),ex("prancha","4","45s")],
+        3:[ex("sqjump","4","15 reps"),ex("agacho_sumô","5","25 reps"),ex("flexoes","5","15 reps"),ex("gitu","5","25 reps"),ex("invrow","5","12 reps"),ex("pike","4","12 reps"),ex("prancha","5","60s")]},
+      { focus:"Glúteos Isolados",           dur:35, kcal:240,
+        1:[ex("glute_kick","4","15 por perna"),ex("fire_hydrant","4","15 por perna"),ex("ponte_glu","4","25 reps"),ex("step_up","3","10 por perna"),ex("prancha","3","30s")],
+        2:[ex("glute_kick","5","20 por perna"),ex("fire_hydrant","5","20 por perna"),ex("gitu","5","20 reps"),ex("step_up","4","12 por perna"),ex("afundo","4","12 por perna"),ex("prancha","4","40s")],
+        3:[ex("glute_kick","5","25 por perna"),ex("fire_hydrant","5","25 por perna"),ex("gitu","5","25 reps"),ex("step_up","5","15 por perna"),ex("afundo_rev","5","15 por perna"),ex("sqjump","4","12 reps"),ex("prancha","4","55s")]},
+      { focus:"🔋 RECUPERAÇÃO ATIVA",       dur:20, kcal:100,
+        1:[ex("inchworm","3","6 reps"),ex("prancha","2","20s"),ex("glute_kick","2","10 por perna"),ex("agacho","2","10 reps")],
+        2:[ex("inchworm","3","8 reps"),ex("prancha","2","30s"),ex("glute_kick","3","12 por perna"),ex("fire_hydrant","2","10 por perna"),ex("superman","2","10 reps")],
+        3:[ex("inchworm","4","10 reps"),ex("prancha","3","35s"),ex("glute_kick","3","15 por perna"),ex("fire_hydrant","3","12 por perna"),ex("superman","3","12 reps"),ex("agacho","3","12 reps")]},
+    ]
+  }
+};
+
+/* ═══════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════ */
+let state = {
+  gender: 'm', goal: 'perder', level: 1,
+  name: '', phone: '',
+  day: 1, playingId: null, doneExs: new Set()
+};
+let restTimer = null;
+
+/* ═══════════════════════════════════════════
+   LOGIN
+═══════════════════════════════════════════ */
+function checkLogin() {
+  const code = document.getElementById('passCode').value.trim().toUpperCase();
+  if(VALID_CODES.includes(code)) {
+    showScreen('s-setup');
+  } else {
+    const inp = document.getElementById('passCode');
+    inp.classList.add('error-shake');
+    setTimeout(()=>inp.classList.remove('error-shake'),500);
+    inp.style.borderColor='var(--red)';
+    inp.placeholder="Código inválido!";
+    setTimeout(()=>{inp.style.borderColor='';inp.placeholder="Código de cliente";},1500);
+  }
+}
+document.getElementById('passCode').addEventListener('keydown', e => e.key==='Enter' && checkLogin());
+
+/* ═══════════════════════════════════════════
+   SETUP
+═══════════════════════════════════════════ */
+function selGender(g) {
+  state.gender = g;
+  document.getElementById('gb-m').classList.toggle('sel', g==='m');
+  document.getElementById('gb-f').classList.toggle('sel', g==='f');
+}
+function selGoal(g) {
+  state.goal = g;
+  document.getElementById('gb-perder').classList.toggle('sel', g==='perder');
+  document.getElementById('gb-ganhar').classList.toggle('sel', g==='ganhar');
+}
+function selLevel(l) {
+  state.level = l;
+  [1,2,3].forEach(i => document.getElementById('lb-'+i).classList.toggle('sel', i===l));
+}
+function saveSetup() {
+  const name = document.getElementById('userName').value.trim();
+  const phone = document.getElementById('userPhone').value.trim();
+  if(!name) { alert("Diz o teu nome primeiro! 💪"); return; }
+  state.name = name; state.phone = phone; state.day = 1; state.doneExs = new Set();
+  showScreen('s-workout');
+  loadWorkout();
+}
+
+/* ═══════════════════════════════════════════
+   WORKOUT
+═══════════════════════════════════════════ */
+function getProgram() {
+  const key = state.gender + (state.goal==='perder'?'f':'g');
+  return PROGRAM[key];
+}
+
+function getDayData() {
+  const prog = getProgram();
+  const idx = ((state.day-1) % prog.days.length);
+  return prog.days[idx];
+}
+
+function loadWorkout() {
+  const data = getDayData();
+  const lvlKey = state.level; // 1,2,3
+  const exList = data[lvlKey];
+
+  // Header
+  document.getElementById('wh-name').textContent = state.name;
+  const goalLabel = state.goal==='perder' ? '🔥 Queima' : '💪 Ganho';
+  const lvlLabel = ['Iniciante','Intermédio','Avançado'][state.level-1];
+  document.getElementById('wh-badge').textContent = `${goalLabel} · ${lvlLabel}`;
+
+  // Day info
+  document.getElementById('day-num').textContent = state.day;
+  document.getElementById('day-focus').textContent = data.focus;
+  document.getElementById('prog-fill').style.width = Math.min((state.day/30)*100,100)+'%';
+
+  // Stats
+  document.getElementById('stat-ex').textContent = exList.length;
+  document.getElementById('stat-dur').textContent = data.dur;
+  document.getElementById('stat-cal').textContent = Math.round(data.kcal * (0.85 + state.level*0.1));
+
+  // Quote
+  const q = QUOTES[(state.day-1) % QUOTES.length];
+  document.getElementById('q-text').textContent = '"'+q+'"';
+
+  // Nutrition
+  const nArr = NUTRITION[state.goal];
+  document.getElementById('n-text').textContent = nArr[(state.day-1) % nArr.length];
+
+  // Reset video
+  document.getElementById('vid-card').style.display = 'none';
+  document.getElementById('vid-card-empty').style.display = 'block';
+  state.playingId = null;
+
+  // Exercise count
+  state.doneExs = new Set();
+  updateDoneCount(exList.length);
+
+  // Build exercise list
+  const list = document.getElementById('ex-list');
+  list.innerHTML = '';
+  exList.forEach((e,i) => {
+    const exData = EXERCISES[e.key];
+    const div = document.createElement('div');
+    div.className = 'ex-card fade-in';
+    div.id = 'exc-'+i;
+    div.innerHTML = `
+      <div class="ex-num">${i+1}</div>
+      <div class="ex-info">
+        <div class="ex-name">${exData.n}</div>
+        <div class="ex-reps">${e.sets} séries × ${e.reps}</div>
+        <div class="ex-tip">${exData.tip}</div>
+      </div>
+      <div class="ex-play">▶</div>
+    `;
+    div.addEventListener('click', () => selectExercise(e.key, i, div));
+    div.addEventListener('dblclick', () => showExerciseModal(e.key));
+    list.appendChild(div);
+  });
+
+  // Mark done / complete
+  document.getElementById('complete-banner').style.display = 'none';
+  stopRestTimer();
+}
+
+function selectExercise(key, idx, el) {
+  // Remove playing from others
+  document.querySelectorAll('.ex-card.playing').forEach(c=>c.classList.remove('playing'));
+  el.classList.add('playing');
+  el.querySelector('.ex-num').style.background='var(--red)';
+  el.querySelector('.ex-num').style.color='#fff';
+
+  const exData = EXERCISES[key];
+
+  // Show YouTube button card
+  document.getElementById('vid-card-empty').style.display = 'none';
+  const card = document.getElementById('vid-card');
+  card.style.display = 'block';
+  document.getElementById('vid-name').textContent = exData.n;
+  document.getElementById('vid-link').href = 'https://www.youtube.com/watch?v=' + exData.id;
+
+  // Scroll to video
+  card.scrollIntoView({behavior:'smooth', block:'nearest'});
+  state.playingId = key;
+
+  // Mark as done after 3s
+  setTimeout(()=>{
+    el.classList.remove('playing');
+    el.classList.add('done');
+    el.querySelector('.ex-num').style.background='var(--green)';
+    state.doneExs.add(idx);
+    const exList = getDayData()[state.level];
+    updateDoneCount(exList.length);
+    startRestTimer();
+  }, 3000);
+}
+
+function updateDoneCount(total) {
+  const done = state.doneExs.size;
+  document.getElementById('ex-count').textContent = `${done}/${total} concluídos`;
+  const exList = getDayData()[state.level];
+  if(done>0 && done === exList.length) {
+    setTimeout(()=>{
+      document.getElementById('complete-banner').style.display = 'block';
+      document.getElementById('complete-banner').scrollIntoView({behavior:'smooth'});
+    }, 800);
+  }
+}
+
+function startRestTimer(seconds=60) {
+  stopRestTimer();
+  const banner = document.getElementById('rest-banner');
+  const count = document.getElementById('rest-count');
+  let s = seconds;
+  count.textContent = s;
+  banner.style.display = 'flex';
+  restTimer = setInterval(()=>{
+    s--;
+    count.textContent = s;
+    if(s<=0) { stopRestTimer(); }
+  }, 1000);
+}
+
+function stopRestTimer() {
+  if(restTimer) { clearInterval(restTimer); restTimer=null; }
+  document.getElementById('rest-banner').style.display = 'none';
+}
+
+function changeDay(v) {
+  stopRestTimer();
+  state.day = Math.max(1, Math.min(30, state.day+v));
+  document.getElementById('workout-body') && document.getElementById('workout-body').scrollTo(0,0);
+  document.querySelector('.workout-body').scrollTop = 0;
+  loadWorkout();
+}
+
+function showExerciseModal(key) {
+  const ex = EXERCISES[key];
+  document.getElementById('m-title').textContent = ex.n;
+  document.getElementById('m-desc').textContent = '💡 '+ex.tip;
+  const mq = document.getElementById('m-muscles');
+  mq.innerHTML = ex.muscles.map(m=>`<span class="badge badge-red">${m}</span>`).join('');
+  const ms = document.getElementById('m-steps');
+  ms.innerHTML = ex.steps.map(s=>`<li>${s}</li>`).join('');
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal(e) {
+  if(!e || e.target===document.getElementById('modal-overlay'))
+    document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function sendWA(tipo) {
+  const prog = getProgram();
+  let targetDay = state.day;
+  if(tipo === 'amanha') targetDay = Math.min(state.day + 1, 30);
+
+  const idx = ((targetDay - 1) % prog.days.length);
+  const data = prog.days[idx];
+  const exList = data[state.level];
+
+  const label = tipo === 'amanha' ? `DIA ${targetDay} (AMANHÃ)` : `DIA ${targetDay} (HOJE)`;
+  const emoji = tipo === 'amanha' ? '⏭️' : '💪';
+
+  let msg = `${emoji} *BOSS DIOGO - PLANO PERSONALIZADO*%0A`;
+  msg += `━━━━━━━━━━━━━━━━━━━━%0A`;
+  msg += `👤 *${state.name}* | *${label} de 30*%0A`;
+  msg += `🎯 *${data.focus}*%0A`;
+  msg += `⏱️ ~${data.dur} min  |  🔥 ~${Math.round(data.kcal * (0.85 + state.level*0.1))} kcal%0A`;
+  msg += `━━━━━━━━━━━━━━━━━━━━%0A%0A`;
+
+  exList.forEach((e,i)=>{
+    const exD = EXERCISES[e.key];
+    msg += `*${i+1}. ${exD.n}*%0A`;
+    msg += `   📊 ${e.sets} séries × ${e.reps}%0A`;
+    msg += `   💡 ${exD.tip}%0A`;
+    msg += `   🎬 https://www.youtube.com/watch?v=${exD.id}%0A%0A`;
+  });
+
+  msg += `━━━━━━━━━━━━━━━━━━━━%0A`;
+  if(tipo === 'amanha') {
+    msg += `_Prepara-te para amanhã! Dorme bem e hidrata-te. 💧_%0A`;
+  } else {
+    msg += `_Dá o teu melhor hoje! O Boss acredita em ti. 🏆_%0A`;
+  }
+  msg += `_— Boss Diogo Performance Coaching_`;
+
+  const phone = state.phone ? `351${state.phone.replace(/\D/g,'')}` : '';
+  window.open(`https://api.whatsapp.com/send?${phone?'phone='+phone+'&':''}text=${msg}`, '_blank');
+}
+
+function logout() {
+  if(confirm('Tens a certeza? O teu progresso de sessão será perdido.')) {
+    state = { gender:'m', goal:'perder', level:1, name:'', phone:'', day:1, playingId:null, doneExs:new Set() };
+    stopRestTimer();
+    showScreen('s-login');
+    document.getElementById('passCode').value = '';
+  }
+}
+
+/* ═══════════════════════════════════════════
+   UTILS
+═══════════════════════════════════════════ */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
 </script>
-
 </body>
 </html>
